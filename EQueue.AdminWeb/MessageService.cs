@@ -24,8 +24,8 @@ namespace EQueue.AdminWeb
             public BrokerInfo BrokerInfo;
             public SocketRemotingClient RemotingClient;
         }
-        private readonly object _lockObj = new object();
-        private readonly byte[] EmptyBytes = new byte[0];
+        //private readonly object _lockObj = new object();
+        private readonly byte[] _emptyBytes = new byte[0];
         private readonly IList<SocketRemotingClient> _nameServerRemotingClientList;
         private readonly ConcurrentDictionary<string /*clusterName*/, IList<BrokerClient>> _clusterBrokerDict;
         private readonly IBinarySerializer _binarySerializer;
@@ -54,7 +54,7 @@ namespace EQueue.AdminWeb
         public IEnumerable<string> GetAllClusters()
         {
             var remotingClient = GetAvailableNameServerRemotingClient();
-            var remotingRequest = new RemotingRequest((int)NameServerRequestCode.GetAllClusters, EmptyBytes);
+            var remotingRequest = new RemotingRequest((int)NameServerRequestCode.GetAllClusters, _emptyBytes);
             var remotingResponse = remotingClient.InvokeSync(remotingRequest, 30000);
             if (remotingResponse.Code == ResponseCode.Success)
             {
@@ -62,7 +62,8 @@ namespace EQueue.AdminWeb
             }
             else
             {
-                throw new Exception(string.Format("GetAllClusters failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"GetAllClusters failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public IEnumerable<BrokerStatusInfo> GetClusterBrokerStatusInfoList(string clusterName, string topic = null, bool onlyFindMaster = false)
@@ -77,7 +78,8 @@ namespace EQueue.AdminWeb
             }
             else
             {
-                throw new Exception(string.Format("GetClusterBrokers failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"GetClusterBrokers failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public BrokerStatisticInfo QueryBrokerStatisticInfo(string clusterName, string brokerName)
@@ -91,7 +93,8 @@ namespace EQueue.AdminWeb
             }
             else
             {
-                throw new Exception(string.Format("QueryBrokerStatisticInfo failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"QueryBrokerStatisticInfo failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public IEnumerable<BrokerTopicQueueInfo> GetTopicQueueInfoList(string clusterName, string topic)
@@ -110,7 +113,8 @@ namespace EQueue.AdminWeb
             }
             else
             {
-                throw new Exception(string.Format("GetTopicQueueInfo failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"GetTopicQueueInfo failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public IEnumerable<TopicQueueInfo> GetTopicQueueInfoList(string clusterName, string brokerName, string topic)
@@ -125,7 +129,8 @@ namespace EQueue.AdminWeb
             }
             else
             {
-                throw new Exception(string.Format("GetTopicQueueInfo failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"GetTopicQueueInfo failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public IEnumerable<BrokerTopicConsumeInfo> GetTopicConsumeInfoList(string clusterName, string group, string topic)
@@ -145,7 +150,8 @@ namespace EQueue.AdminWeb
             }
             else
             {
-                throw new Exception(string.Format("GetTopicConsumeInfo failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"GetTopicConsumeInfo failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public IEnumerable<TopicConsumeInfo> GetTopicConsumeInfoList(string clusterName, string brokerName, string group, string topic)
@@ -160,7 +166,8 @@ namespace EQueue.AdminWeb
             }
             else
             {
-                throw new Exception(string.Format("GetTopicConsumeInfo failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"GetTopicConsumeInfo failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public IEnumerable<BrokerProducerListInfo> GetProducerInfoList(string clusterName)
@@ -178,13 +185,14 @@ namespace EQueue.AdminWeb
             }
             else
             {
-                throw new Exception(string.Format("GetProducerInfo failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"GetProducerInfo failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public IEnumerable<string> GetProducerInfoList(string clusterName, string brokerName)
         {
             var remotingClient = GetBrokerByName(clusterName, brokerName);
-            var remotingRequest = new RemotingRequest((int)BrokerRequestCode.GetProducerList, EmptyBytes);
+            var remotingRequest = new RemotingRequest((int)BrokerRequestCode.GetProducerList, _emptyBytes);
             var remotingResponse = remotingClient.InvokeSync(remotingRequest, 30000);
             if (remotingResponse.Code == ResponseCode.Success)
             {
@@ -193,7 +201,8 @@ namespace EQueue.AdminWeb
             }
             else
             {
-                throw new Exception(string.Format("GetProducerInfo failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"GetProducerInfo failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public IEnumerable<BrokerConsumerListInfo> GetConsumerInfoList(string clusterName, string group, string topic)
@@ -213,7 +222,8 @@ namespace EQueue.AdminWeb
             }
             else
             {
-                throw new Exception(string.Format("GetConsumerInfo failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"GetConsumerInfo failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public IEnumerable<ConsumerInfo> GetConsumerInfoList(string clusterName, string brokerName, string group, string topic)
@@ -228,13 +238,14 @@ namespace EQueue.AdminWeb
             }
             else
             {
-                throw new Exception(string.Format("GetConsumerInfo failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"GetConsumerInfo failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public IEnumerable<string> GetLatestSendMessagesList(string clusterName, string brokerName)
         {
             var remotingClient = GetBrokerByName(clusterName, brokerName);
-            var remotingRequest = new RemotingRequest((int)BrokerRequestCode.GetLastestMessages, EmptyBytes);
+            var remotingRequest = new RemotingRequest((int)BrokerRequestCode.GetLastestMessages, _emptyBytes);
             var remotingResponse = remotingClient.InvokeSync(remotingRequest, 30000);
             if (remotingResponse.Code == ResponseCode.Success)
             {
@@ -243,7 +254,8 @@ namespace EQueue.AdminWeb
             }
             else
             {
-                throw new Exception(string.Format("GetLatestSendMessagesList failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"GetLatestSendMessagesList failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public void CreateTopic(string clusterName, string topic, int? initialQueueCount)
@@ -259,7 +271,8 @@ namespace EQueue.AdminWeb
             var remotingResponse = remotingClient.InvokeSync(remotingRequest, 30000);
             if (remotingResponse.Code != ResponseCode.Success)
             {
-                throw new Exception(string.Format("CreateTopic failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"CreateTopic failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public void CreateTopic(string clusterName, string brokerName, string topic, int? initialQueueCount)
@@ -270,7 +283,8 @@ namespace EQueue.AdminWeb
             var remotingResponse = remotingClient.InvokeSync(remotingRequest, 30000);
             if (remotingResponse.Code != ResponseCode.Success)
             {
-                throw new Exception(string.Format("CreateTopic failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"CreateTopic failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public void DeleteTopic(string clusterName, string topic)
@@ -285,7 +299,8 @@ namespace EQueue.AdminWeb
             var remotingResponse = remotingClient.InvokeSync(remotingRequest, 30000);
             if (remotingResponse.Code != ResponseCode.Success)
             {
-                throw new Exception(string.Format("DeleteTopic failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"DeleteTopic failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public void DeleteTopic(string clusterName, string brokerName, string topic)
@@ -296,7 +311,8 @@ namespace EQueue.AdminWeb
             var remotingResponse = remotingClient.InvokeSync(remotingRequest, 30000);
             if (remotingResponse.Code != ResponseCode.Success)
             {
-                throw new Exception(string.Format("DeleteTopic failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"DeleteTopic failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public void AddQueue(string clusterName, string topic)
@@ -311,7 +327,7 @@ namespace EQueue.AdminWeb
             var remotingResponse = remotingClient.InvokeSync(remotingRequest, 30000);
             if (remotingResponse.Code != ResponseCode.Success)
             {
-                throw new Exception(string.Format("AddQueue failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception($"AddQueue failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public void AddQueue(string clusterName, string brokerName, string topic)
@@ -322,7 +338,7 @@ namespace EQueue.AdminWeb
             var remotingResponse = remotingClient.InvokeSync(remotingRequest, 30000);
             if (remotingResponse.Code != ResponseCode.Success)
             {
-                throw new Exception(string.Format("AddQueue failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception($"AddQueue failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public void DeleteQueue(string clusterName, string topic, int queueId)
@@ -338,7 +354,8 @@ namespace EQueue.AdminWeb
             var remotingResponse = remotingClient.InvokeSync(remotingRequest, 30000);
             if (remotingResponse.Code != ResponseCode.Success)
             {
-                throw new Exception(string.Format("DeleteQueue failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"DeleteQueue failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public void DeleteQueue(string clusterName, string brokerName, string topic, int queueId)
@@ -349,7 +366,8 @@ namespace EQueue.AdminWeb
             var remotingResponse = remotingClient.InvokeSync(remotingRequest, 30000);
             if (remotingResponse.Code != ResponseCode.Success)
             {
-                throw new Exception(string.Format("DeleteQueue failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"DeleteQueue failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public void SetQueueProducerVisible(string clusterName, string topic, int queueId, bool visible)
@@ -366,7 +384,8 @@ namespace EQueue.AdminWeb
             var remotingResponse = remotingClient.InvokeSync(remotingRequest, 30000);
             if (remotingResponse.Code != ResponseCode.Success)
             {
-                throw new Exception(string.Format("SetQueueProducerVisible failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"SetQueueProducerVisible failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public void SetQueueProducerVisible(string clusterName, string brokerName, string topic, int queueId, bool visible)
@@ -377,7 +396,8 @@ namespace EQueue.AdminWeb
             var remotingResponse = remotingClient.InvokeSync(remotingRequest, 30000);
             if (remotingResponse.Code != ResponseCode.Success)
             {
-                throw new Exception(string.Format("SetQueueProducerVisible failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"SetQueueProducerVisible failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public void SetQueueConsumerVisible(string clusterName, string topic, int queueId, bool visible)
@@ -394,7 +414,8 @@ namespace EQueue.AdminWeb
             var remotingResponse = remotingClient.InvokeSync(remotingRequest, 30000);
             if (remotingResponse.Code != ResponseCode.Success)
             {
-                throw new Exception(string.Format("SetQueueConsumerVisible failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"SetQueueConsumerVisible failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public void SetQueueConsumerVisible(string clusterName, string brokerName, string topic, int queueId, bool visible)
@@ -405,7 +426,8 @@ namespace EQueue.AdminWeb
             var remotingResponse = remotingClient.InvokeSync(remotingRequest, 30000);
             if (remotingResponse.Code != ResponseCode.Success)
             {
-                throw new Exception(string.Format("SetQueueConsumerVisible failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"SetQueueConsumerVisible failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public void SetQueueNextConsumeOffset(string clusterName, string consumerGroup, string topic, int queueId, long nextOffset)
@@ -427,7 +449,8 @@ namespace EQueue.AdminWeb
             var remotingResponse = remotingClient.InvokeSync(remotingRequest, 30000);
             if (remotingResponse.Code != ResponseCode.Success)
             {
-                throw new Exception(string.Format("SetQueueNextConsumeOffset failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"SetQueueNextConsumeOffset failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public void SetQueueNextConsumeOffset(string clusterName, string brokerName, string consumerGroup, string topic, int queueId, long nextOffset)
@@ -442,7 +465,8 @@ namespace EQueue.AdminWeb
             var remotingResponse = remotingClient.InvokeSync(remotingRequest, 30000);
             if (remotingResponse.Code != ResponseCode.Success)
             {
-                throw new Exception(string.Format("SetQueueNextConsumeOffset failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"SetQueueNextConsumeOffset failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public void DeleteConsumerGroup(string clusterName, string consumerGroup)
@@ -461,7 +485,8 @@ namespace EQueue.AdminWeb
             var remotingResponse = remotingClient.InvokeSync(remotingRequest, 30000);
             if (remotingResponse.Code != ResponseCode.Success)
             {
-                throw new Exception(string.Format("DeleteConsumerGroup failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"DeleteConsumerGroup failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public void DeleteConsumerGroup(string clusterName, string brokerName, string consumerGroup)
@@ -476,7 +501,8 @@ namespace EQueue.AdminWeb
             var remotingResponse = remotingClient.InvokeSync(remotingRequest, 30000);
             if (remotingResponse.Code != ResponseCode.Success)
             {
-                throw new Exception(string.Format("DeleteConsumerGroup failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"DeleteConsumerGroup failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
         public QueueMessage GetMessageDetail(string clusterName, string messageId)
@@ -494,7 +520,8 @@ namespace EQueue.AdminWeb
                 }
                 else
                 {
-                    throw new Exception(string.Format("GetMessageDetail failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                    throw new Exception(
+	                    $"GetMessageDetail failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
                 }
             }
 
@@ -528,6 +555,7 @@ namespace EQueue.AdminWeb
             {
                 var brokerInfoList = _binarySerializer.Deserialize<IEnumerable<BrokerInfo>>(remotingResponse.Body);
                 var brokerClientList = new List<BrokerClient>();
+	            // ReSharper disable once LoopCanBeConvertedToQuery
                 foreach (var brokerInfo in brokerInfoList)
                 {
                     var client = new SocketRemotingClient(brokerInfo.AdminAddress.ToEndPoint(), Settings.SocketSetting).Start();
@@ -546,37 +574,36 @@ namespace EQueue.AdminWeb
             }
             else
             {
-                throw new Exception(string.Format("GetClusterBrokers failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
+                throw new Exception(
+	                $"GetClusterBrokers failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
             }
         }
-        private SocketRemotingClient GetBrokerByName(string clusterName, string brokerName)
-        {
-            IList<BrokerClient> clientList;
-            if (!_clusterBrokerDict.TryGetValue(clusterName, out clientList))
-            {
-                RefreshClusterBrokers(clusterName);
-                if (!_clusterBrokerDict.TryGetValue(clusterName, out clientList))
-                {
-                    return null;
-                }
-            }
-            var brokerClient = clientList.SingleOrDefault(x => x.BrokerInfo.BrokerName == brokerName);
-            if (brokerClient == null)
-            {
-                RefreshClusterBrokers(clusterName);
-                if (!_clusterBrokerDict.TryGetValue(clusterName, out clientList))
-                {
-                    return null;
-                }
-                brokerClient = clientList.SingleOrDefault(x => x.BrokerInfo.BrokerName == brokerName);
-            }
-            if (brokerClient != null)
-            {
-                return brokerClient.RemotingClient;
-            }
-            return null;
-        }
-        private IList<BrokerClient> GetClusterBrokers(string clusterName)
+
+	    private SocketRemotingClient GetBrokerByName(string clusterName, string brokerName)
+	    {
+		    IList<BrokerClient> clientList;
+		    if (!_clusterBrokerDict.TryGetValue(clusterName, out clientList))
+		    {
+			    RefreshClusterBrokers(clusterName);
+			    if (!_clusterBrokerDict.TryGetValue(clusterName, out clientList))
+			    {
+				    return null;
+			    }
+		    }
+		    var brokerClient = clientList.SingleOrDefault(x => x.BrokerInfo.BrokerName == brokerName);
+		    if (brokerClient == null)
+		    {
+			    RefreshClusterBrokers(clusterName);
+			    if (!_clusterBrokerDict.TryGetValue(clusterName, out clientList))
+			    {
+				    return null;
+			    }
+			    brokerClient = clientList.SingleOrDefault(x => x.BrokerInfo.BrokerName == brokerName);
+		    }
+		    return brokerClient?.RemotingClient;
+	    }
+
+	    private IList<BrokerClient> GetClusterBrokers(string clusterName)
         {
             IList<BrokerClient> clientList;
             if (!_clusterBrokerDict.TryGetValue(clusterName, out clientList))
@@ -589,20 +616,16 @@ namespace EQueue.AdminWeb
             }
             return clientList;
         }
-        private IList<SocketRemotingClient> CreateRemotingClientList(IEnumerable<IPEndPoint> endpointList)
+
+	    private IList<SocketRemotingClient> CreateRemotingClientList(IEnumerable<IPEndPoint> endpointList)
+	    {
+		    return endpointList.Select(endpoint => new SocketRemotingClient(endpoint, Settings.SocketSetting)).ToList();
+	    }
+
+	    private void ScanAccumulateMessages()
         {
-            var remotingClientList = new List<SocketRemotingClient>();
-            foreach (var endpoint in endpointList)
-            {
-                var remotingClient = new SocketRemotingClient(endpoint, Settings.SocketSetting);
-                remotingClientList.Add(remotingClient);
-            }
-            return remotingClientList;
-        }
-        private void ScanAccumulateMessages()
-        {
-            var topicAccumulateInfoList = GetTopicAccumulateInfoList();
-            if (topicAccumulateInfoList.Count() == 0)
+            var topicAccumulateInfoList = GetTopicAccumulateInfoList().ToList();
+            if (!topicAccumulateInfoList.Any())
             {
                 return;
             }
@@ -611,23 +634,22 @@ namespace EQueue.AdminWeb
                 _sendEmailService.SendMessageAccumulateNotification(topicAccumulateInfo);
             }
         }
-        private IEnumerable<TopicAccumulateInfo> GetTopicAccumulateInfoList()
-        {
-            var remotingClient = GetAvailableNameServerRemotingClient();
-            var requestData = _binarySerializer.Serialize(new GetTopicAccumulateInfoListRequest
-            {
-                AccumulateThreshold = Settings.MessageAccumulateThreshold
-            });
-            var remotingRequest = new RemotingRequest((int)NameServerRequestCode.GetTopicAccumulateInfoList, requestData);
-            var remotingResponse = remotingClient.InvokeSync(remotingRequest, 30000);
-            if (remotingResponse.Code == ResponseCode.Success)
-            {
-                return _binarySerializer.Deserialize<IEnumerable<TopicAccumulateInfo>>(remotingResponse.Body);
-            }
-            else
-            {
-                throw new Exception(string.Format("GetTopicAccumulateInfoList failed, errorMessage: {0}", Encoding.UTF8.GetString(remotingResponse.Body)));
-            }
-        }
+
+	    private IEnumerable<TopicAccumulateInfo> GetTopicAccumulateInfoList()
+	    {
+		    var remotingClient = GetAvailableNameServerRemotingClient();
+		    var requestData = _binarySerializer.Serialize(new GetTopicAccumulateInfoListRequest
+		    {
+			    AccumulateThreshold = Settings.MessageAccumulateThreshold
+		    });
+		    var remotingRequest = new RemotingRequest((int) NameServerRequestCode.GetTopicAccumulateInfoList, requestData);
+		    var remotingResponse = remotingClient.InvokeSync(remotingRequest, 30000);
+		    if (remotingResponse.Code == ResponseCode.Success)
+		    {
+			    return _binarySerializer.Deserialize<IEnumerable<TopicAccumulateInfo>>(remotingResponse.Body);
+		    }
+		    throw new Exception(
+			    $"GetTopicAccumulateInfoList failed, errorMessage: {Encoding.UTF8.GetString(remotingResponse.Body)}");
+	    }
     }
 }

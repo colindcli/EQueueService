@@ -28,6 +28,7 @@ namespace EQueue.AdminWeb
             {
                 var addressList = nameServerAddresses.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
                 var endpointList = new List<IPEndPoint>();
+	            // ReSharper disable once LoopCanBeConvertedToQuery
                 foreach (var address in addressList)
                 {
                     var array = address.Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
