@@ -273,7 +273,7 @@ __pycache__/
 
 # Cake - Uncomment if you are using it
 # tools/
-
+/packages
 
 
 ###### -- Custom Ignore Section, Make sure all files you add to the git repo are below this line  --  ######
