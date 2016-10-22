@@ -8,11 +8,11 @@ using EQueue.Utils;
 using ECommonConfiguration = ECommon.Configurations.Configuration;
 namespace EQueue.BrokerServer
 {
-	public class BootStrap
+	public class Bootstrap
 	{
-		private readonly BrokerController _brokerController;
+		private BrokerController _brokerController;
 
-		public BootStrap()
+		public void Initialize()
 		{
 			InitializeEQueue();
 			//NameServer 地址和端口

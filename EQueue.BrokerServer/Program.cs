@@ -13,11 +13,15 @@ namespace EQueue.BrokerServer
 				x.SetDescription("EQueue Broker Service");
 				x.SetDisplayName("EQueueBrokerServer");
 				x.SetServiceName("EQueueBrokerServer");
-				x.Service<BootStrap>(s =>
+				x.Service<Bootstrap>(s =>
 				{
-					s.ConstructUsing(b => new BootStrap());
-					s.WhenStarted(tc => tc.Start());
-					s.WhenStopped(tc => tc.Shutdown());
+					s.ConstructUsing(b => new Bootstrap());
+					s.WhenStarted(b =>
+					{
+						b.Initialize();
+						b.Start();
+					});
+					s.WhenStopped(b => b.Shutdown());
 				});
 
 			});

@@ -5,11 +5,11 @@ using EQueue.Configurations;
 using ECommonConfiguration = ECommon.Configurations.Configuration;
 namespace EQueue.NameServer
 {
-	public class BootStrap
+	public class Bootstrap
 	{
-		private readonly NameServerController _nameServerController;
+		private  NameServerController _nameServerController;
 
-		public BootStrap()
+		public void Initialize()
 		{
 			InitializeEQueue();
 			var ipAddress = IPAddress.Parse(ConfigurationManager.AppSettings["ipAddress"]);
