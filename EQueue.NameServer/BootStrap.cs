@@ -7,7 +7,7 @@ namespace EQueue.NameServer
 {
 	public class Bootstrap
 	{
-		private  NameServerController _nameServerController;
+		private NameServerController _nameServerController;
 
 		public void Initialize()
 		{

@@ -9,7 +9,7 @@ namespace EQueue.BrokerServer
 			HostFactory.Run(x =>
 			{
 				x.RunAsLocalService();
-				x.StartAutomatically();
+			    x.StartAutomatically();
 				x.SetDescription("EQueue Broker Service");
 				x.SetDisplayName("EQueueBrokerServer");
 				x.SetServiceName("EQueueBrokerServer");

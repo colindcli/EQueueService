@@ -48,6 +48,7 @@ namespace EQueue.BrokerServer
 			_brokerController = BrokerController.Create(setting);
 		}
 
+
 		public void Start()
 		{
 			_brokerController.Start();
