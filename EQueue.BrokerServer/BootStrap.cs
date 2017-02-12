@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Net;
 using ECommon.Configurations;
+using ECommon.Extensions;
 using EQueue.Broker;
 using EQueue.Configurations;
 using EQueue.Utils;
